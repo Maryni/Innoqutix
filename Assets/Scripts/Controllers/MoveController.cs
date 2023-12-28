@@ -9,8 +9,7 @@ public class MoveController : MonoBehaviour
     [SerializeField] private float rightMoveMod;
     [SerializeField] private float leftMoveMod;
 
-    private Coroutine jumpCoroutine;
-
+   
     public void DoJump()
     {
         rigidbody.AddForce(Vector2.up * jumpMod);
@@ -26,11 +25,4 @@ public class MoveController : MonoBehaviour
         rigidbody.AddForce(Vector2.left * leftMoveMod * Time.deltaTime);
     }
 
-    private void Jump()
-    {
-
-        //StopCoroutine(jumpCoroutine);
-        //jumpCoroutine = null;
-        //yield break;
-    }
 }

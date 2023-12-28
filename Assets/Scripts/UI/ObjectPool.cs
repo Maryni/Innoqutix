@@ -6,30 +6,26 @@ using System.Linq;
 
 public enum ObjectType
 {
-    Bullet,
-    Enemy,
-    MatchThreeSprite
+    FlyPlatform
 }
 public class ObjectPool : MonoBehaviour
 {
     #region Inspector variables
 
-    [Header("Prefabs for Init"), SerializeField] private List<GameObject> prefabsSpriteList;
-    [Header("Inited objects"), SerializeField] private List<GameObject> exampleSpriteList;
-    [Header("Transform for pools"), SerializeField] private Transform transformSpriteParent;
-    [Header("Count inited object for each type"), SerializeField] private int countSpriteExampleToInit;
+    [Header("Prefabs for Init"), SerializeField] private List<GameObject> prefabsFlyPlatformList;
+    [Header("Inited objects"), SerializeField] private List<GameObject> exampleFlyPlatformList;
+    [Header("Transform for pools"), SerializeField] private Transform transformFlyPlatformParent;
+    [Header("Count inited object for each type"), SerializeField] private int countFlyPlatformExampleToInit;
 
     #endregion Inspector variables
 
     #region private variables
 
-    private bool isStatsLoaded = false;
-
     #endregion private variables
 
     #region properties
 
-    public List<GameObject> PrefabsSpriteList => prefabsSpriteList;
+    public List<GameObject> PrefabsFlyPlatformList => prefabsFlyPlatformList;
 
     #endregion properties
 
@@ -43,19 +39,19 @@ public class ObjectPool : MonoBehaviour
     #endregion Unity functions
 
     #region public functions
-    /*
-    public GameObject GetObjectByType(ObjectType objectType, ElementType elementType)
+    
+    public GameObject GetObjectByType(ObjectType objectType)
     {
-        if (objectType == ObjectType.MatchThreeSprite)
+        if (objectType == ObjectType.FlyPlatform)
         {
-            var findedObject = exampleSpriteList.Where(x => x.GetComponentInChildren<BaseMatchThree>().ElementType == elementType)
+            var findedObject = exampleFlyPlatformList.Where(x => x.GetComponentInChildren<PlatformController>())
                 .FirstOrDefault(x => !x.activeSelf);
             if (findedObject == null)
             {
                 var exampleObject =
-                    exampleSpriteList.FirstOrDefault(x => x.GetComponentInChildren<BaseMatchThree>().ElementType == elementType);
-                var newObject = Instantiate(exampleObject, transformSpriteParent);
-                exampleSpriteList.Add(newObject);
+                    exampleFlyPlatformList.FirstOrDefault(x => x.GetComponentInChildren<PlatformController>());
+                var newObject = Instantiate(exampleObject, transformFlyPlatformParent);
+                exampleFlyPlatformList.Add(newObject);
                 newObject.SetActive(true);
                 return newObject;
             }
@@ -66,12 +62,7 @@ public class ObjectPool : MonoBehaviour
         Debug.LogError("Incorrect Function GetObjectByType Work");
         return new GameObject();
     }
-    */
-
-    public void ChangeStatsLoadState()
-    {
-        isStatsLoaded = !isStatsLoaded;
-    }
+    
 
     #endregion public functions
 
@@ -79,10 +70,11 @@ public class ObjectPool : MonoBehaviour
 
     private IEnumerator Init()
     {
-
-        InitDefault(prefabsSpriteList, countSpriteExampleToInit, transformSpriteParent, exampleSpriteList);
+        if(countFlyPlatformExampleToInit > 0)
+        {
+            InitDefault(prefabsFlyPlatformList, countFlyPlatformExampleToInit, transformFlyPlatformParent, exampleFlyPlatformList);
+        }
         yield break;
-
     }
 
     private void InitDefault(List<GameObject> list, int countGameObjectToInit, Transform transformParent, List<GameObject> exampleList)
