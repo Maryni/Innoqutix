@@ -65,6 +65,7 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         conversionDataDictionary["app_id"] = packageName;
         conversionDataDictionary["appsflyer_id"] = AppsFlyer.getAppsFlyerId();
         conversionDataDictionary["signal_app_id"] = signalAppId;
+
         string playerUserData = playerDataURL;
         string jsonUserData = JsonConvert.SerializeObject(conversionDataDictionary);
         resultUserData = await SendDataAsync(playerUserData, jsonUserData);

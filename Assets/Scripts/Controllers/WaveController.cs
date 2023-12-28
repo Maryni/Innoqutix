@@ -76,7 +76,6 @@ public class WaveController : MonoBehaviour
             platform.Index = indexSpawn;
 
             configuredObjects.Add(platform);
-            Debug.Log($"SET | {item} |{item.transform.position}|");
         }
     }
 }

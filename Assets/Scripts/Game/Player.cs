@@ -9,21 +9,29 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(Input.touchCount >0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Touch touch = Input.GetTouch(0);
             touchPos = touch.position;
         }
         else
         {
-            if(Input.GetMouseButtonUp(0))
+            if(Input.GetMouseButton(0))
             {
-                //var correctedPos = Input.mousePosition;
-                //touchPos = Camera.main.ScreenToWorldPoint(correctedPos);
                 touchPos = Input.mousePosition;
             }
         }
 
+        if(Input.GetMouseButtonUp(0))
+        {
+            ChooseMove();
+        }
+
+        Debug.Log($"mousePos = {touchPos}");
+    }
+
+    private void ChooseMove()
+    {
         if (IsRightPartOfScreen())
         {
             moveController.DoMoveRight();
@@ -34,8 +42,6 @@ public class Player : MonoBehaviour
             moveController.DoMoveLeft();
             Debug.Log("Left");
         }
-
-        Debug.Log($"mousePos = {touchPos}");
     }
 
     private bool IsRightPartOfScreen()
