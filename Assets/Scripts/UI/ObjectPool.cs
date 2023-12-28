@@ -13,7 +13,7 @@ public class ObjectPool : MonoBehaviour
     #region Inspector variables
 
     [Header("Prefabs for Init"), SerializeField] private List<GameObject> prefabsFlyPlatformList;
-    [Header("Inited objects"), SerializeField] private List<GameObject> exampleFlyPlatformList;
+    [Header("Inited objects"), SerializeField] private List<GameObject> initedFlyPlatformList;
     [Header("Transform for pools"), SerializeField] private Transform transformFlyPlatformParent;
     [Header("Count inited object for each type"), SerializeField] private int countFlyPlatformExampleToInit;
 
@@ -44,14 +44,14 @@ public class ObjectPool : MonoBehaviour
     {
         if (objectType == ObjectType.FlyPlatform)
         {
-            var findedObject = exampleFlyPlatformList.Where(x => x.GetComponentInChildren<PlatformController>())
+            var findedObject = initedFlyPlatformList.Where(x => x.GetComponentInChildren<PlatformController>())
                 .FirstOrDefault(x => !x.activeSelf);
             if (findedObject == null)
             {
                 var exampleObject =
-                    exampleFlyPlatformList.FirstOrDefault(x => x.GetComponentInChildren<PlatformController>());
+                    initedFlyPlatformList.FirstOrDefault(x => x.GetComponentInChildren<PlatformController>());
                 var newObject = Instantiate(exampleObject, transformFlyPlatformParent);
-                exampleFlyPlatformList.Add(newObject);
+                initedFlyPlatformList.Add(newObject);
                 newObject.SetActive(true);
                 return newObject;
             }
@@ -61,6 +61,16 @@ public class ObjectPool : MonoBehaviour
 
         Debug.LogError("Incorrect Function GetObjectByType Work");
         return new GameObject();
+    }
+
+    public List<GameObject> GetListObjectsByType(ObjectType objectType)
+    {
+        if(objectType == ObjectType.FlyPlatform)
+        {
+            return initedFlyPlatformList;
+        }
+
+        throw new Exception("There is no other type of return");
     }
     
 
@@ -72,7 +82,7 @@ public class ObjectPool : MonoBehaviour
     {
         if(countFlyPlatformExampleToInit > 0)
         {
-            InitDefault(prefabsFlyPlatformList, countFlyPlatformExampleToInit, transformFlyPlatformParent, exampleFlyPlatformList);
+            InitDefault(prefabsFlyPlatformList, countFlyPlatformExampleToInit, transformFlyPlatformParent, initedFlyPlatformList);
         }
         yield break;
     }

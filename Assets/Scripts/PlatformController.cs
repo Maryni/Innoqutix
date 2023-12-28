@@ -14,7 +14,13 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private BoxCollider defaultBoxCollider;
     [SerializeField] private BoxCollider triggerBoxCollider;
     [SerializeField] private Transform pointToMoveOn;
-    [SerializeField] private SideType sideType;
 
+    public SideType SideType { get; set; }
+    public int Index { get; set; }
+    public bool IsSetted { get; set; }
 
+    private void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
+    }
 }

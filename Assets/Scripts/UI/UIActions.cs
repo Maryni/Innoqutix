@@ -13,8 +13,7 @@ public class UIActions : MonoBehaviour
     [SerializeField] private GameObject upgradesGameObject;
     [SerializeField] private GameObject settingsGameObject;
     [SerializeField] private GameObject exitGameObject;
-    [SerializeField] private GameObject mainPanelGameObject;
-    [SerializeField] private GameObject MatchThreePanel;
+    [SerializeField] private GameObject mainPanelGameObject;    
 
     #endregion Inspector variables
     
@@ -44,12 +43,6 @@ public class UIActions : MonoBehaviour
         HideAll();
         ShowObject(settingsGameObject);
     }
-
-    public void OpenMatchThreePanel()
-    {
-        HideAll();
-        MatchThreePanel.SetActive(true);
-    }
     
     public void HideAll()
     {
@@ -58,7 +51,6 @@ public class UIActions : MonoBehaviour
         upgradesGameObject.SetActive(false);
         settingsGameObject.SetActive(false);
         exitGameObject.SetActive(false);
-        MatchThreePanel.SetActive(false);
     }
 
     public void HideAllAndHideMainPanel()

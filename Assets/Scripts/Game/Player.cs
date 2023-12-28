@@ -7,11 +7,6 @@ public class Player : MonoBehaviour
     [SerializeField] private MoveController moveController;
     private Vector2 touchPos;
 
-    private void Start()
-    {
-        moveController.DoJump();
-    }
-
     private void FixedUpdate()
     {
         if(Input.touchCount >0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -19,25 +14,34 @@ public class Player : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             touchPos = touch.position;
         }
+        else
+        {
+            if(Input.GetMouseButtonUp(0))
+            {
+                //var correctedPos = Input.mousePosition;
+                //touchPos = Camera.main.ScreenToWorldPoint(correctedPos);
+                touchPos = Input.mousePosition;
+            }
+        }
 
         if (IsRightPartOfScreen())
         {
-            moveController.DoRightMove();
+            moveController.DoMoveRight();
+            Debug.Log("Right");
         }
         else
         {
-            moveController.DoLeftMove();
+            moveController.DoMoveLeft();
+            Debug.Log("Left");
         }
-    }
 
-    private void GetTouchPosition()
-    {
-        Touch touch = Input.GetTouch(0);
+        Debug.Log($"mousePos = {touchPos}");
     }
 
     private bool IsRightPartOfScreen()
     {
-        if(touchPos.x > (Screen.width /2))
+        
+        if (Camera.main.WorldToScreenPoint(touchPos).x > Screen.width /2)
         {
             return true;
         }

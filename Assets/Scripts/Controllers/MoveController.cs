@@ -1,28 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rigidbody;
-    [SerializeField] private float jumpMod;
+    [SerializeField] private float speedMod;
     [SerializeField] private float rightMoveMod;
     [SerializeField] private float leftMoveMod;
 
-   
-    public void DoJump()
+    private Vector3 moveToPos = Vector3.zero;
+    private Action onLeftMove;
+    private Action onRightMove;
+
+    private void Update()
     {
-        rigidbody.AddForce(Vector2.up * jumpMod);
+        DoMove();
     }
 
-    public void DoRightMove()
+    public void DoMove()
     {
-        rigidbody.AddForce(Vector2.right * rightMoveMod * Time.deltaTime);
+        if(moveToPos != Vector3.zero)
+        {
+            float step = speedMod * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, moveToPos, step);
+        }
     }
 
-    public void DoLeftMove()
+    public void DoMoveRight()
     {
-        rigidbody.AddForce(Vector2.left * leftMoveMod * Time.deltaTime);
+        onRightMove?.Invoke();
+        Debug.Log($"movePos = {moveToPos}");
+    }
+
+    public void DoMoveLeft()
+    {
+        onLeftMove?.Invoke();
+        Debug.Log($"movePos = {moveToPos}");
+    }
+
+    public void SetMovePosition(Vector3 pos) => moveToPos = pos;
+
+    public void SetActionOnRightMove(params Action[] actions)
+    {
+        foreach(var item in actions)
+        {
+            onRightMove += item;
+        }
+    }
+
+    public void SetActionOnLeftMove(params Action[] actions)
+    {
+        foreach (var item in actions)
+        {
+            onLeftMove += item;
+        }
     }
 
 }
