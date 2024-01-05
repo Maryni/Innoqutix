@@ -13,21 +13,15 @@ public class Player : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             touchPos = touch.position;
-        }
-        else
-        {
-            if(Input.GetMouseButton(0))
-            {
-                touchPos = Input.mousePosition;
-            }
-        }
-
-        if(Input.GetMouseButtonUp(0))
-        {
+            Debug.Log($"[Touch] mousePos = {touchPos}");
             ChooseMove();
         }
-
-        Debug.Log($"mousePos = {touchPos}");
+        else if(Input.GetMouseButtonUp(0))
+        {
+            touchPos = Input.mousePosition;
+            Debug.Log($"[Mouse] mousePos = {touchPos}");
+            ChooseMove();
+        }
     }
 
     private void ChooseMove()
@@ -46,8 +40,7 @@ public class Player : MonoBehaviour
 
     private bool IsRightPartOfScreen()
     {
-        
-        if (Camera.main.WorldToScreenPoint(touchPos).x > Screen.width /2)
+        if (Camera.main.WorldToScreenPoint(touchPos).x >= (Screen.width /2))
         {
             return true;
         }

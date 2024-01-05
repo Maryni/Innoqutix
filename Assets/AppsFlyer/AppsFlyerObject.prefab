@@ -44,13 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2ec6ba1ee8b48749524f015ed572a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  devKey: 
-  appID: 
+  devKey: nDsYDb4nKsvp4f8dX755uS
+  appID: 6475427534
   UWPAppID: 
   macOSAppID: 
   playerDataURL: 
-  signalAppId: 
-  packageName: 
+  signalAppId: f66a3d31-20d2-42b4-8de8-809e277f7809
+  packageName: com.innoqutix
   isDebug: 0
   getConversionData: 1
   IsUserActive: 0

@@ -6,8 +6,6 @@ using UnityEngine;
 public class MoveController : MonoBehaviour
 {
     [SerializeField] private float speedMod;
-    [SerializeField] private float rightMoveMod;
-    [SerializeField] private float leftMoveMod;
 
     private Vector3 moveToPos = Vector3.zero;
     private Action onLeftMove;
@@ -24,6 +22,7 @@ public class MoveController : MonoBehaviour
         {
             float step = speedMod * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, moveToPos, step);
+
         }
     }
 

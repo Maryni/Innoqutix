@@ -43,7 +43,6 @@ public class WaveController : MonoBehaviour
 
     public Vector3 GetPositionToMove(SideType sideType)
     {
-        Vector3 posToMove;
         if(configuredObjects.Count > 0)
         {
             var selected = configuredObjects.FirstOrDefault(x => x.Index == indexSpawn - 1 && x.SideType == sideType);
@@ -62,11 +61,11 @@ public class WaveController : MonoBehaviour
             float randX = 0;
             if(sideType == SideType.Left)
             {
-                 randX = Random.Range(-2f, 0f);
+                 randX = Random.Range(-2f, -0.5f);
             }
             if(sideType == SideType.Right)
             {
-                 randX = Random.Range(0f, 2f);
+                 randX = Random.Range(0.5f, 2f);
             }
 
             item.transform.position = new Vector3(randX, delayBetweenPlatforms * indexSpawn);
