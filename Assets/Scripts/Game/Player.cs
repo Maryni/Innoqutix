@@ -5,45 +5,25 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private MoveController moveController;
-    private Vector2 touchPos;
+
+    public float X { get; private set; }
+    public float Y { get; private set; }
 
     private void FixedUpdate()
     {
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        SetXY();
+    }
+
+    private void SetXY()
+    {
+        if (X != gameObject.transform.position.x)
         {
-            Touch touch = Input.GetTouch(0);
-            touchPos = touch.position;
-            Debug.Log($"[Touch] mousePos = {touchPos}");
-            ChooseMove();
+            X = transform.position.x;
         }
-        else if(Input.GetMouseButtonUp(0))
+        if (Y != gameObject.transform.position.y)
         {
-            touchPos = Input.mousePosition;
-            Debug.Log($"[Mouse] mousePos = {touchPos}");
-            ChooseMove();
+            Y = transform.position.y;
         }
     }
 
-    private void ChooseMove()
-    {
-        if (IsRightPartOfScreen())
-        {
-            moveController.DoMoveRight();
-            Debug.Log("Right");
-        }
-        else
-        {
-            moveController.DoMoveLeft();
-            Debug.Log("Left");
-        }
-    }
-
-    private bool IsRightPartOfScreen()
-    {
-        if (Camera.main.WorldToScreenPoint(touchPos).x >= (Screen.width /2))
-        {
-            return true;
-        }
-        return false;
-    }
 }

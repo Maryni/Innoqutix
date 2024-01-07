@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
 
     #region private variables
@@ -22,42 +22,13 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 
     #region public functions
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (eventData.pointerCurrentRaycast.gameObject)
-        {
-            /*
-            if (eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>())
-            {
-                Debug.Log($"[OnDrag] call, GO = {eventData.pointerCurrentRaycast.gameObject.name} | ElemType = {eventData.pointerCurrentRaycast.gameObject.GetComponent<BaseMatchThree>().ElementType}" );
-                int x = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().X;
-                int y = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().Y;
-                actionOnDragRemoveConnection?.Invoke(x,y);
-                //actionOnEndDrag?.Invoke(x,y); //second point
-                //actionOnDragWithParams(x,y); // first point
-                if (x != lastX || y != lastY)
-                {
-                    actionOnEndDrag?.Invoke(x,y);
-                    actionCheckConnection?.Invoke();
-                    lastX = x;
-                    lastY = y;
-                    Debug.Log($"[OnDrag] second point X = {lastX} | Y = {lastY}");
-                    Debug.Log($"[OnDrag] CheckConnection Invoked");
-                }
-                Debug.Log($"[OnDrag] X ={x} | Y = {y}" );
-            }
-            */
-        }
-    }
-
     public void OnBeginDrag(PointerEventData eventData)
-    {
-        /*
+    { 
         Debug.Log($"lastX = {lastX} | lastY = {lastY}");
-        if (eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>())
+        if (eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>())
         {
-            int x = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().X;
-            int y = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().Y;
+            int x = (int) eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>().X;
+            int y = (int) eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>().Y;
             if (lastX == -1 && lastY == -1)
             {
                 actionOnDragWithParams(x,y);
@@ -72,18 +43,16 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         {
             Debug.Log("wrong gameobject");
         }
-        */
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        /*
         if (eventData.pointerCurrentRaycast.gameObject)
         {
-            if (eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>())
+            if (eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>())
             {
-                int x = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().X;
-                int y = eventData.pointerCurrentRaycast.gameObject.GetComponent<MatchThreeFlexibleElement>().Y;
+                int x = (int) eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>().X;
+                int y = (int) eventData.pointerCurrentRaycast.gameObject.GetComponent<Player>().Y;
                 actionOnEndDrag?.Invoke(x,y);
                 Debug.Log("OnEndDrag called");
                 lastX = -1; //x
@@ -93,8 +62,6 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         }
         actionOnEndDragWithoutParams?.Invoke();
         Debug.Log($"[OnEndDrag] lastX ={lastX} | lastY = {lastY}" );
-
-        */
     }
 
     public void SetActionOnEndDrag(params UnityAction<int,int>[] actions)
@@ -137,8 +104,4 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     }
     
     #endregion public functions
-
-    #region private functions
-
-    #endregion private functions
 }
