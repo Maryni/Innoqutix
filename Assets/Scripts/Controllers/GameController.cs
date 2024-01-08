@@ -39,7 +39,9 @@ public class GameController : MonoBehaviour
     private void SetActions()
     {
         dragDrop.AddOnDragEnd(
-            (value)=> player.SetDirection(value)
+            (value)=> player.SetDirection(value),
+            (value)=>player.Jump()
             );
+
     }
 }

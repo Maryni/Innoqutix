@@ -17,14 +17,23 @@ public class Player : MonoBehaviour
     {
         if(IsGrounded)
         {
-            Jump();
+            //Jump();
             Debug.Log("1");
         }
     }
 
     public void Jump()
     {
-        rig2D.AddForce(directionToJump * jumpSpeed);
+        if(directionToJump.y > Vector2.zero.y)
+        {
+            rig2D.velocity = directionToJump * jumpSpeed;
+            directionToJump = Vector2.zero;
+        }
+        else
+        {
+            rig2D.velocity = Vector2.up * jumpSpeed;
+            directionToJump = Vector2.zero;
+        }
     }
 
     public void SetDirection(Vector2 direction) => directionToJump = direction;
