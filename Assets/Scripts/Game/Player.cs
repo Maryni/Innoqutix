@@ -7,12 +7,37 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody2D rig2D;
     [SerializeField] private float jumpSpeed;
 
+    public bool IsGrounded { get; private set; }
+    private Vector2 directionToJump;
+
     public float X { get; private set; }
     public float Y { get; private set; }
 
-    public void Jump(Vector2 direction)
+    private void Update()
     {
-        rig2D.AddForce(direction * jumpSpeed, ForceMode2D.Impulse);
-        Debug.Log($"direction = {direction}");
+        if(IsGrounded)
+        {
+            Jump();
+            Debug.Log("1");
+        }
+    }
+
+    public void Jump()
+    {
+        rig2D.AddForce(directionToJump * jumpSpeed);
+    }
+
+    public void SetDirection(Vector2 direction) => directionToJump = direction;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        IsGrounded = true;
+        Debug.Log("IsTriggered");
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        IsGrounded = false;
+        Debug.Log("No triggered");
     }
 }

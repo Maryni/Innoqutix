@@ -9,7 +9,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
 {
 
     public GameObject arrowPrefab;
-
+    [SerializeField] private GameObject startPlatform;
     #region private variables
     
     private Action<Vector2> actionOnEndDrag;
@@ -86,14 +86,21 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             arrowInstance.SetActive(false);
         }
         actionOnEndDrag.Invoke(directionToJump);
+
+        if(startPlatform.activeSelf)
+        {
+            startPlatform.SetActive(false);
+        }
         Debug.Log($"[OnEndDrag] lastX ={lastX} | lastY = {lastY}" );
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.position = eventData.position; 
+        //rectTransform.position = eventData.position; 
         Vector2 direction = eventData.position - startPos;
         directionToJump = direction;
+        directionToJump.Normalize();
+        directionToJump = -directionToJump;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         arrowInstance.transform.rotation = Quaternion.Euler(0, 0, angle + 180);
