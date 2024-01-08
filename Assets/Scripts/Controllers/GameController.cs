@@ -40,12 +40,5 @@ public class GameController : MonoBehaviour
 
         waveController.SetListPlatforms(objectPool.GetListObjectsByType(ObjectType.FlyPlatform));
         waveController.InitSpawn();
-
-        moveController.SetActionOnLeftMove(
-            () => moveController.SetMovePosition(waveController.GetPositionToMove(SideType.Left))
-            );
-        moveController.SetActionOnRightMove(
-            () => moveController.SetMovePosition(waveController.GetPositionToMove(SideType.Right))
-            );
     }
 }

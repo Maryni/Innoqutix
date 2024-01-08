@@ -6,16 +6,21 @@ using System.Linq;
 
 public enum ObjectType
 {
-    FlyPlatform
+    FlyPlatform,
+    EnemyBullet
 }
 public class ObjectPool : MonoBehaviour
 {
     #region Inspector variables
 
     [Header("Prefabs for Init"), SerializeField] private List<GameObject> prefabsFlyPlatformList;
+    [SerializeField] private List<GameObject> prefabsBulletsList;
     [Header("Inited objects"), SerializeField] private List<GameObject> initedFlyPlatformList;
+    [SerializeField] private List<GameObject> initedBulletsList;
     [Header("Transform for pools"), SerializeField] private Transform transformFlyPlatformParent;
+    [SerializeField] private Transform transformBulletsParent;
     [Header("Count inited object for each type"), SerializeField] private int countFlyPlatformExampleToInit;
+    [SerializeField] private int countBulletsExampleToInit;
 
     #endregion Inspector variables
 
@@ -59,6 +64,23 @@ public class ObjectPool : MonoBehaviour
             return findedObject;
         }
 
+        if(objectType == ObjectType.EnemyBullet)
+        {
+            var findedObject = initedBulletsList.Where(x => x.GetComponentInChildren<PlatformController>())
+                .FirstOrDefault(x => !x.activeSelf);
+            if (findedObject == null)
+            {
+                var exampleObject =
+                    initedBulletsList.FirstOrDefault(x => x.GetComponentInChildren<PlatformController>());
+                var newObject = Instantiate(exampleObject, transformBulletsParent);
+                initedBulletsList.Add(newObject);
+                newObject.SetActive(true);
+                return newObject;
+            }
+            findedObject.SetActive(true);
+            return findedObject;
+        }
+
         Debug.LogError("Incorrect Function GetObjectByType Work");
         return new GameObject();
     }
@@ -68,6 +90,11 @@ public class ObjectPool : MonoBehaviour
         if(objectType == ObjectType.FlyPlatform)
         {
             return initedFlyPlatformList;
+        }
+
+        if(objectType == ObjectType.EnemyBullet)
+        {
+            return initedBulletsList;
         }
 
         throw new Exception("There is no other type of return");
@@ -83,6 +110,7 @@ public class ObjectPool : MonoBehaviour
         if(countFlyPlatformExampleToInit > 0)
         {
             InitDefault(prefabsFlyPlatformList, countFlyPlatformExampleToInit, transformFlyPlatformParent, initedFlyPlatformList);
+            InitDefault(prefabsBulletsList, countBulletsExampleToInit, transformBulletsParent, initedBulletsList);
         }
         yield break;
     }
