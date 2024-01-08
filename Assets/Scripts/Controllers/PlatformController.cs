@@ -11,12 +11,13 @@ public class PlatformController : MonoBehaviour
 
     private void Start()
     {
-        rig2d.isKinematic = true;
+        rig2d.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
+        rig2d.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

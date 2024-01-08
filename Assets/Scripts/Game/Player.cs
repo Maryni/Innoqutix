@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         if(IsGrounded)
         {
             //Jump();
-            Debug.Log("1");
+            //Debug.Log("1");
         }
     }
 
