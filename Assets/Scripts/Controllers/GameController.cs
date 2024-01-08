@@ -7,8 +7,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private ObjectPool objectPool;
     [SerializeField] private UIController uiController;
-    [SerializeField] private WaveController waveController;
-    [SerializeField] private MoveController moveController;
+    private DragDrop dragDrop;
 
     private void Start()
     {
@@ -25,20 +24,22 @@ public class GameController : MonoBehaviour
         {
             uiController = FindObjectOfType<UIController>();
         }
-        if (waveController == null)
-        {
-            waveController = FindObjectOfType<WaveController>();
-        }
-        if(moveController == null)
-        {
-            moveController = FindObjectOfType<MoveController>();
-        }
         if(player == null)
         {
             player = FindObjectOfType<Player>();
         }
+        if(dragDrop == null)
+        {
+            dragDrop = FindObjectOfType<DragDrop>();
+        }
 
-        waveController.SetListPlatforms(objectPool.GetListObjectsByType(ObjectType.FlyPlatform));
-        waveController.InitSpawn();
+        SetActions();
+    }
+
+    private void SetActions()
+    {
+        dragDrop.AddOnDragEnd(
+            (value)=> player.Jump(value)
+            );
     }
 }

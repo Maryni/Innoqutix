@@ -66,12 +66,10 @@ public class ObjectPool : MonoBehaviour
 
         if(objectType == ObjectType.EnemyBullet)
         {
-            var findedObject = initedBulletsList.Where(x => x.GetComponentInChildren<PlatformController>())
-                .FirstOrDefault(x => !x.activeSelf);
+            var findedObject = initedBulletsList.FirstOrDefault(x => !x.activeSelf);
             if (findedObject == null)
             {
-                var exampleObject =
-                    initedBulletsList.FirstOrDefault(x => x.GetComponentInChildren<PlatformController>());
+                var exampleObject = initedBulletsList.FirstOrDefault();
                 var newObject = Instantiate(exampleObject, transformBulletsParent);
                 initedBulletsList.Add(newObject);
                 newObject.SetActive(true);

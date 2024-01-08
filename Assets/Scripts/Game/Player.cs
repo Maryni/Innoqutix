@@ -4,26 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private MoveController moveController;
+    [SerializeField] private Rigidbody2D rig2D;
+    [SerializeField] private float jumpSpeed;
 
     public float X { get; private set; }
     public float Y { get; private set; }
 
-    private void FixedUpdate()
+    public void Jump(Vector2 direction)
     {
-        SetXY();
+        rig2D.AddForce(direction * jumpSpeed, ForceMode2D.Impulse);
+        Debug.Log($"direction = {direction}");
     }
-
-    private void SetXY()
-    {
-        if (X != gameObject.transform.position.x)
-        {
-            X = transform.position.x;
-        }
-        if (Y != gameObject.transform.position.y)
-        {
-            Y = transform.position.y;
-        }
-    }
-
 }
