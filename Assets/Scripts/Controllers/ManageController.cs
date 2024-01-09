@@ -6,9 +6,7 @@ using Gpm.WebView;
 
 public class ManageController : MonoBehaviour
 {
-    [SerializeField] private UniWebView uniWebView;
     [SerializeField] private AppsFlyerObjectScript script;
-    //[SerializeField] private MatchThreeController_v2 controller_V2;
     [SerializeField] private TMP_Text text;
     private void Start()
     {
@@ -17,13 +15,9 @@ public class ManageController : MonoBehaviour
 
     private void SetActions()
     {
-        // script.SetOnSuccessAction(
-        //     () => uniWebView.Show(),
-        //     () => uniWebView.Load(script.neededWebEye)
-        // );
-        // controller_V2.SetActionsOnSuccessCombination(
-        //     () => controller_V2.Text.text = controller_V2.GameScore.ToString()
-        // );
+        script.SetOnSuccessAction(
+            () => ShowUrlFullScreen(script.neededWebEye)
+        );
     }
 
      public void ShowUrlFullScreen(string url)
@@ -46,7 +40,6 @@ public class ManageController : MonoBehaviour
              contentMode = GpmWebViewContentMode.MOBILE
  #endif
                  },
-                 // See the end of the code example
                  OnCallback,
                  new List<string>()
                  {
@@ -130,7 +123,7 @@ public class ManageController : MonoBehaviour
 
     public void UpdateText()
     {
-        //text.text += script.BigData;
+        text.text += script.BigData;
     }
 
 }

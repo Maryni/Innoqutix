@@ -13,15 +13,6 @@ public class Player : MonoBehaviour
     public float X { get; private set; }
     public float Y { get; private set; }
 
-    private void Update()
-    {
-        if(IsGrounded)
-        {
-            //Jump();
-            //Debug.Log("1");
-        }
-    }
-
     public void Jump()
     {
         if(directionToJump.y > Vector2.zero.y)

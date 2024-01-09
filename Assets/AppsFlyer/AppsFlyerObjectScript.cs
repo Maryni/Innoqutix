@@ -23,8 +23,8 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
     public string packageName;
     public bool isDebug;
     public bool getConversionData;
-    public bool IsUserActive;
     public string resultUserData;
+    public string BigData;
 
     public Dictionary<string, object> Data = new Dictionary<string, object>();
     public List<string> dataResult = new List<string>();
@@ -50,8 +50,7 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
 
         AppsFlyer.startSDK();
 
-        StartCoroutine(RefreshData());
-
+        GetPublicData();
     }
 
     // Mark AppsFlyer CallBacks
@@ -69,8 +68,10 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         string playerUserData = playerDataURL;
         string jsonUserData = JsonConvert.SerializeObject(conversionDataDictionary);
         resultUserData = await SendDataAsync(playerUserData, jsonUserData);
+        
         dataResult.Clear();
-        neededWebEye = ParseGetData(resultUserData);
+        BigData = resultUserData;
+        
 
         foreach (var pair in Data)
         {
@@ -80,12 +81,11 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         var tempValue = ParseGetData(resultUserData, true).Replace(" ", "");
         if (tempValue == "true")
         {
-            IsUserActive = true;
+            neededWebEye = ParseGetData(resultUserData);
             onSuccess?.Invoke();
         }
 
         Debug.Log($"resultData = {resultUserData}");
-
     }
 
     public void onConversionDataFail(string error)
@@ -97,7 +97,6 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
     {
         AppsFlyer.AFLog("onAppOpenAttribution", attributionData);
         Dictionary<string, object> attributionDataDictionary = AppsFlyer.CallbackStringToDictionary(attributionData);
-        // add direct deeplink logic here
     }
 
     public void onAppOpenAttributionFailure(string error)
@@ -105,6 +104,11 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         AppsFlyer.AFLog("onAppOpenAttributionFailure", error);
     }
 
+    public void GetPublicData()
+    {
+        StartCoroutine(RefreshData());
+    }
+    
     public IEnumerator RefreshData()
     {
         yield return new WaitForSeconds(6f);
@@ -112,13 +116,12 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         StopAllCoroutines();
     }
 
-    private async Task<string> SendDataAsync(string apiUrlDataInfo, string jsonDataPlinkoUser)
+    private async Task<string> SendDataAsync(string url, string jsonDataUser)
     {
         using (HttpClient clientDataServ = new HttpClient())
         {
-            StringContent contentDataInfo = new StringContent(jsonDataPlinkoUser, System.Text.Encoding.UTF8, "application/json");
-
-            HttpResponseMessage responseDataInfo = await clientDataServ.PostAsync(apiUrlDataInfo, contentDataInfo);
+            StringContent contentDataInfo = new StringContent(jsonDataUser, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage responseDataInfo = await clientDataServ.PostAsync(url, contentDataInfo);
 
             if (responseDataInfo.IsSuccessStatusCode)
             {
@@ -135,14 +138,12 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
     private string ParseGetData(string value, bool needStatus = false)
     {
         var answer = JsonUtility.FromJson<JsonGet>(value);
-        var charArray = answer.answer.ToCharArray();
         var index = answer.answer.IndexOf("dev");
 
         if (needStatus)
         {
             return answer.status;
         }
-
         return answer.answer.Substring(0, index);
     }
 
