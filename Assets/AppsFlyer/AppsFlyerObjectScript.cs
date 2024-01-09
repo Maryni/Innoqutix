@@ -34,26 +34,21 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
 
     void Start()
     {
-        // AppsFlyer.OnRequestResponse += AppsFlyerOnRequestResponse;
-
-        // These fields are set from the editor so do not modify!
-        //******************************//
         AppsFlyer.setIsDebug(isDebug);
 #if UNITY_WSA_10_0 && !UNITY_EDITOR
         AppsFlyer.initSDK(devKey, UWPAppID, getConversionData ? this : null);
 #elif UNITY_STANDALONE_OSX && !UNITY_EDITOR
     AppsFlyer.initSDK(devKey, macOSAppID, getConversionData ? this : null);
-#else
+#elif UNITY_ANDROID
         AppsFlyer.initSDK(devKey, null, getConversionData ? this : null);
+#elif UNITY_IOS
+        AppsFlyer.initSDK(devKey, appID, getConversionData ? this : null);
 #endif
-        //******************************/
-
         AppsFlyer.startSDK();
 
         GetPublicData();
     }
 
-    // Mark AppsFlyer CallBacks
     public async void onConversionDataSuccess(string conversionData)
     {
         AppsFlyer.AFLog("didReceiveConversionData", conversionData);
@@ -69,9 +64,8 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
         string jsonUserData = JsonConvert.SerializeObject(conversionDataDictionary);
         resultUserData = await SendDataAsync(playerUserData, jsonUserData);
         
-        dataResult.Clear();
         BigData = resultUserData;
-        
+        dataResult.Clear();
 
         foreach (var pair in Data)
         {
@@ -84,13 +78,12 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
             neededWebEye = ParseGetData(resultUserData);
             onSuccess?.Invoke();
         }
-
-        Debug.Log($"resultData = {resultUserData}");
     }
 
     public void onConversionDataFail(string error)
     {
         AppsFlyer.AFLog("didReceiveConversionDataWithError", error);
+        BigData = error;
     }
 
     public void onAppOpenAttribution(string attributionData)
@@ -111,7 +104,7 @@ public class AppsFlyerObjectScript : MonoBehaviour, IAppsFlyerConversionData
     
     public IEnumerator RefreshData()
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(3f);
         AppsFlyer.getConversionData(name);
         StopAllCoroutines();
     }

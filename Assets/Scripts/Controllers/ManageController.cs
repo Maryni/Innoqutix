@@ -12,6 +12,7 @@ public class ManageController : MonoBehaviour
     private void Start()
     {
         SetActions();
+        //ShowUrlFullScreen("https://google.com.ua");
     }
 
     private void SetActions()
