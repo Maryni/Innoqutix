@@ -36,7 +36,7 @@ public class ObjectPool : MonoBehaviour
 
     #region Unity functions
 
-    private void Start()
+    private void Awake()
     {
         StartCoroutine(Init());
     }

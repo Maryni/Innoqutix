@@ -8,6 +8,7 @@ public class ManageController : MonoBehaviour
 {
     [SerializeField] private AppsFlyerObjectScript script;
     [SerializeField] private TMP_Text text;
+
     private void Start()
     {
         SetActions();

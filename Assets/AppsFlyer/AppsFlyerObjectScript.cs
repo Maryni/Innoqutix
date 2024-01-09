@@ -3,7 +3,7 @@ using UnityEngine;
 using AppsFlyerSDK;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 

@@ -23,13 +23,11 @@ public class PlatformController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.GetComponent<Player>().IsGrounded)
+        Debug.Log($"collision with {collision.gameObject.name}");
+        if(collision.gameObject.GetComponent<Player>())
         {
             rig2d.bodyType = RigidbodyType2D.Dynamic;
-        }
-        if (collision.gameObject.GetComponent<PlatformController>())
-        {
-            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            this.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 }

@@ -3,10 +3,12 @@ using System.Collections;
 
 public class SpawnController : MonoBehaviour
 {
+    [SerializeField] private float timerForSpawnByWay;
     [SerializeField] private int min;
     [SerializeField] private int max;
 
     private ObjectPool objectPool;
+    private Coroutine spawnerCoroutine;
 
     private void Start()
     {
@@ -19,11 +21,12 @@ public class SpawnController : MonoBehaviour
         {
             objectPool = FindObjectOfType<ObjectPool>();
         }
-        Spawn();
+        StartCoroutineByTimer();
     }
 
-    private void Spawn()
+    private IEnumerator Spawn()
     {
+        yield return new WaitForSeconds(timerForSpawnByWay);
         var number = Random.Range(min, max+1);
         for(int i=0; i < number; i++)
         {
@@ -35,6 +38,25 @@ public class SpawnController : MonoBehaviour
             item.SetActive(true);
         }
         Debug.Log($"Spawn for {number} finished");
+        yield break;
+    }
+
+    public void StartCoroutineByTimer()
+    {
+        if (spawnerCoroutine == null)
+        {
+            spawnerCoroutine = StartCoroutine(Spawn());
+        }
+        else
+        {
+            StopSpawnCoroutine();
+        }
+    }
+
+    public void StopSpawnCoroutine()
+    {
+        StopCoroutine(spawnerCoroutine);
+        spawnerCoroutine = null;
     }
 }
 

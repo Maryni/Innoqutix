@@ -11,8 +11,18 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private GameObject buttonOpen;
     [SerializeField] private GameObject buttonClose;
+    [SerializeField] private GameObject gameScore;
+    [SerializeField] private GameObject gameScoreText;
+    [SerializeField] private GameObject diePanel;
 
     #endregion Inspector variables
+
+    #region properties
+
+    public GameObject GameScoreText => gameScoreText;
+    public GameObject DiePanel => diePanel;
+
+    #endregion properties
 
     #region Unity functions
 

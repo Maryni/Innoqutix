@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -7,7 +8,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private ObjectPool objectPool;
     [SerializeField] private UIController uiController;
-    private DragDrop dragDrop;
+    [SerializeField] private DragDrop dragDrop;
+    [SerializeField] private EnemyController enemyController;
 
     private void Start()
     {
@@ -32,8 +34,13 @@ public class GameController : MonoBehaviour
         {
             dragDrop = FindObjectOfType<DragDrop>();
         }
+        if(enemyController == null)
+        {
+            enemyController = FindAnyObjectByType<EnemyController>();
+        }
 
         SetActions();
+        
     }
 
     private void SetActions()
@@ -42,6 +49,20 @@ public class GameController : MonoBehaviour
             (value)=> player.SetDirection(value),
             (value)=> player.Jump()
             );
+        player.SetOnTriggeredAction(
+            ()=> uiController.GameScoreText.GetComponent<TMP_Text>().text = player.CountTriggered.ToString()
+            );
+        player.SetOnDieAction(
+            ()=> uiController.DiePanel.SetActive(true)
+            );
+        player.SetOnReadyAction(
+            ()=> enemyController.StartSpawn()
+            );
 
+    }
+
+    public void Ready()
+    {
+        player.Ready();
     }
 }
