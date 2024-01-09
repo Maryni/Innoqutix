@@ -51,7 +51,7 @@ MonoBehaviour:
   playerDataURL: https://genniusinnvestoor.space?innoqutix-tech
   signalAppId: f66a3d31-20d2-42b4-8de8-809e277f7809
   packageName: com.innoqutix
-  isDebug: 1
+  isDebug: 0
   getConversionData: 1
   resultUserData: 
   BigData: 
