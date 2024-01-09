@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rig2D;
+    [SerializeField] private Animator animator;
     [SerializeField] private float jumpSpeed;
 
     public bool IsGrounded { get; private set; }
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         {
             rig2D.velocity = directionToJump * jumpSpeed;
             directionToJump = Vector2.zero;
+            animator.SetBool("jump", true);
         }
         else
         {
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
         IsGrounded = true;
         Debug.Log("IsTriggered");
         countTriggered++;
+        animator.SetBool("jump",false);
         onTriggeredAction?.Invoke();
 
     }

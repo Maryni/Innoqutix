@@ -43,7 +43,14 @@ public class UIActions : MonoBehaviour
         HideAll();
         ShowObject(settingsGameObject);
     }
-    
+
+    public void ShowAll()
+    {
+        continueGameObject.SetActive(true);
+        settingsGameObject.SetActive(true);
+        exitGameObject.SetActive(true);
+    }
+
     public void HideAll()
     {
         continueGameObject.SetActive(false);
